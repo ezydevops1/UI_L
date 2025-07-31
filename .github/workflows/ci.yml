@@ -1,0 +1,33 @@
+name: CI Checks
+
+on:
+  pull_request:
+    branches: [main, dev, qa, prod]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Linter
+        run: echo "Linting code..."  # Replace with actual linter if available
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        run: echo "Running tests..."  # Replace with real test command
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Build Project
+        run: echo "Building project..."  # Replace with real build command
