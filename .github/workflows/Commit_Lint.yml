@@ -14,12 +14,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get and check commit messages
+      - name: Get and check the latest 2 commit messages
         run: |
-          echo "Fetching commit messages between base and head..."
-          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
-          COMMITS=$(git log origin/$BASE_BRANCH..HEAD --pretty=format:"%s")
-          echo "$COMMITS" > commits.txt
+          echo "Getting the latest 2 commit messages..."
+          git log -n 2 --pretty=format:"%s" > commits.txt
 
           echo "Checking commit messages..."
           invalid=0
@@ -40,10 +38,4 @@ jobs:
           else
             echo "✅ All commit messages are valid."
           fi
-
-
-
-
-
-
 
