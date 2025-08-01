@@ -1,3 +1,4 @@
+
 name: CI Checks
 
 on:
@@ -31,3 +32,19 @@ jobs:
 
       - name: Build Project
         run: echo "Building project..."  # Replace with real build command
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.3'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+
+      - name: Run tests
+        run: |
+          echo "Run your tests here"
+          # pytest or unittest
+
