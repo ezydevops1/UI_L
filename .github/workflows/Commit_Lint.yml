@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get commit messages
+      - name: Get and check commit messages
         run: |
           echo "Fetching commit messages between base and head..."
           BASE_BRANCH=${{ github.event.pull_request.base.ref }}
@@ -24,18 +24,18 @@ jobs:
           echo "Checking commit messages..."
           invalid=0
           while IFS= read -r line; do
-            if [[ ! "$line" =~ ^(feat|fix)(\([a-zA-Z0-9_-]+\))?:\  ]]; then
-              echo "❌ Invalid commit message: $line"
-              invalid=1
+            if [[ "$line" =~ ^(feat|fix):\  ]] || [[ "$line" =~ ^(feat|fix)\([a-zA-Z0-9_-]+\):\  ]]; then
+              echo "✅ Valid commit: $line"
             else
-              echo "✅ Valid: $line"
+              echo "❌ Invalid commit: $line"
+              invalid=1
             fi
           done < commits.txt
 
           if [[ $invalid -eq 1 ]]; then
-            echo "❌ One or more commit messages are not in 'feat:' or 'fix:' format."
+            echo "❌ One or more commit messages are invalid. Use 'feat:' or 'fix:' only."
             exit 1
           else
-            echo "✅ All commit messages follow the conventional format."
+            echo "✅ All commit messages are valid."
           fi
 
