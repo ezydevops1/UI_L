@@ -2,8 +2,16 @@
 name: CI Checks
 
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/workflows/Commit_Lint.yml'
+
   pull_request:
-    branches: [main, dev, qa, prod]
+    branches: [dev, qa, prod]
+    paths-ignore:
+      - '.github/workflows/Commit_Lint.yml'
+
 
 jobs:
   lint:
@@ -46,5 +54,4 @@ jobs:
       - name: Run tests
         run: |
           echo "Run your tests here"
-          # pytest or unittest
 
