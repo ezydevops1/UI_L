@@ -2,10 +2,10 @@ name: CD.yml
 
 on:
   push:
+
     branches: [dev, qa, prod]
   pull_request:
     branches: [main]
-
 
 jobs:
   deploy-dev:
@@ -28,3 +28,4 @@ jobs:
     steps:
       - name: Deploy to Production
         run: echo "Deploying to Production Environment"
+
