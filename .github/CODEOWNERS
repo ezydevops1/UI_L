@@ -1,0 +1,11 @@
+# Auto-assign reviewers to all files
+* @your-username @your-team-name
+
+# Frontend files → frontend team
+frontend/** @frontend-team
+
+# Backend files → backend team
+backend/** @backend-team
+
+# GitHub workflows → CI maintainer
+.github/workflows/* @ci-maintainer
