@@ -12,16 +12,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get commit messages from PR
+      - name: Get commit messages
         run: |
-          PR_COMMITS=$(git log origin/${{ github.event.pull_request.base.ref }}..HEAD --pretty=format:"%s")
-          echo "$PR_COMMITS" > commits.txt
+          COMMITS=$(git log origin/${{ github.event.pull_request.base.ref }}..HEAD --pretty=format:"%s")
+          echo "$COMMITS" > commits.txt
 
           echo "Checking commit messages..."
           invalid=0
           while IFS= read -r line; do
             if [[ ! "$line" =~ ^(feat|fix)(\([^)]+\))?:\  ]]; then
-              echo "❌ Invalid commit message: $line"
+              echo "❌ Invalid commit: $line"
               invalid=1
             else
               echo "✅ Valid: $line"
@@ -29,6 +29,8 @@ jobs:
           done < commits.txt
 
           if [[ $invalid -eq 1 ]]; then
-            echo "Some commit messages are invalid."
+            echo "❌ Commit format check failed."
             exit 1
-          fi
+          else
+            echo "✅ All commits are valid."
+
