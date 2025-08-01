@@ -2,9 +2,14 @@ name: Python CI
 
 on:
   push:
-    branches: [main]  # add your working branch here
+    branches: [main]
+    paths-ignore:
+      - '.github/workflows/Commit_Lint.yml'
+
   pull_request:
     branches: [dev, qa, prod]
+    paths-ignore:
+      - '.github/workflows/Commit_Lint.yml'
 
 jobs:
   build:
@@ -27,5 +32,4 @@ jobs:
       - name: Run tests
         run: |
           echo "Run your tests here"
-          # pytest or unittest
 
