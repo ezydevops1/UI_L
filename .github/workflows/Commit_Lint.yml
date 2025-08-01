@@ -1,0 +1,41 @@
+name: Commit Lint
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout all branches
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get and check the latest 2 commit messages
+        run: |
+          echo "Getting the latest 2 commit messages..."
+          git log -n 2 --pretty=format:"%s" > commits.txt
+
+          echo "Checking commit messages..."
+          invalid=0
+          while IFS= read -r line; do
+            if [[ "$line" =~ ^Merge ]]; then
+              echo "ℹ️ Skipping merge commit: $line"
+            elif [[ "$line" =~ ^(feat|fix):\  ]] || [[ "$line" =~ ^(feat|fix)\([a-zA-Z0-9_-]+\):\  ]]; then
+              echo "✅ Valid commit: $line"
+            else
+              echo "❌ Invalid commit: $line"
+              invalid=1
+            fi
+          done < commits.txt
+
+          if [[ $invalid -eq 1 ]]; then
+            echo "❌ One or more commit messages are invalid. Use 'feat:' or 'fix:' only."
+            exit 1
+          else
+            echo "✅ All commit messages are valid."
+          fi
+

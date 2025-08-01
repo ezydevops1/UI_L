@@ -1,5 +1,4 @@
 name: CD
-
 on:
   push:
     branches: [dev, qa, prod]
@@ -26,4 +25,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Production
-        run: echo "🔥 Deploying to Production Environment"
+        run: echo "Deploying to Production Environment"
