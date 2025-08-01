@@ -24,7 +24,9 @@ jobs:
           echo "Checking commit messages..."
           invalid=0
           while IFS= read -r line; do
-            if [[ "$line" =~ ^(feat|fix):\  ]] || [[ "$line" =~ ^(feat|fix)\([a-zA-Z0-9_-]+\):\  ]]; then
+            if [[ "$line" =~ ^Merge ]]; then
+              echo "ℹ️ Skipping merge commit: $line"
+            elif [[ "$line" =~ ^(feat|fix):\  ]] || [[ "$line" =~ ^(feat|fix)\([a-zA-Z0-9_-]+\):\  ]]; then
               echo "✅ Valid commit: $line"
             else
               echo "❌ Invalid commit: $line"
@@ -38,4 +40,10 @@ jobs:
           else
             echo "✅ All commit messages are valid."
           fi
+
+
+
+
+
+
 
