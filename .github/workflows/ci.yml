@@ -1,4 +1,5 @@
-name: Python CI
+
+name: CI Checks
 
 on:
   push:
@@ -11,14 +12,35 @@ on:
     paths-ignore:
       - '.github/workflows/Commit_Lint.yml'
 
+
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Linter
+        run: echo "Linting code..."  # Replace with actual linter if available
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        run: echo "Running tests..."  # Replace with real test command
+
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
+      - name: Build Project
+        run: echo "Building project..."  # Replace with real build command
+        
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

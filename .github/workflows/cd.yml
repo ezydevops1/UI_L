@@ -1,11 +1,11 @@
-name: CD.yml
+name: CD
 
 on:
   push:
-
     branches: [dev, qa, prod]
   pull_request:
     branches: [main]
+    branches: [dev, qa, prod]
 
 jobs:
   deploy-dev:
@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Development
-        run: echo "Deploying to Dev Environment"
+        run: echo "✅ Deploying to Dev Environment"
 
   deploy-qa:
     if: github.ref == 'refs/heads/qa'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to QA
-        run: echo "Deploying to QA Environment"
+        run: echo "🚀 Deploying to QA Environment"
 
   deploy-prod:
     if: github.ref == 'refs/heads/prod'
@@ -28,4 +28,3 @@ jobs:
     steps:
       - name: Deploy to Production
         run: echo "Deploying to Production Environment"
-
