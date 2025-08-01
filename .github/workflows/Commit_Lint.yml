@@ -12,7 +12,7 @@ jobs:
       - name: Checkout all branches
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history and all branches
+          fetch-depth: 0
 
       - name: Get commit messages
         run: |
@@ -24,7 +24,7 @@ jobs:
           echo "Checking commit messages..."
           invalid=0
           while IFS= read -r line; do
-            if [[ ! "$line" =~ ^(feat|fix)(\([^)]+\))?:\  ]]; then
+            if [[ ! "$line" =~ ^(feat|fix)(\([a-zA-Z0-9_-]+\))?:\  ]]; then
               echo "❌ Invalid commit message: $line"
               invalid=1
             else
