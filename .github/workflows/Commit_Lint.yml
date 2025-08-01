@@ -9,19 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout all branches
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history and all branches
 
       - name: Get commit messages
         run: |
-          COMMITS=$(git log origin/${{ github.event.pull_request.base.ref }}..HEAD --pretty=format:"%s")
+          echo "Fetching commit messages between base and head..."
+          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
+          COMMITS=$(git log origin/$BASE_BRANCH..HEAD --pretty=format:"%s")
           echo "$COMMITS" > commits.txt
 
           echo "Checking commit messages..."
           invalid=0
           while IFS= read -r line; do
             if [[ ! "$line" =~ ^(feat|fix)(\([^)]+\))?:\  ]]; then
-              echo "❌ Invalid commit: $line"
+              echo "❌ Invalid commit message: $line"
               invalid=1
             else
               echo "✅ Valid: $line"
@@ -29,8 +33,9 @@ jobs:
           done < commits.txt
 
           if [[ $invalid -eq 1 ]]; then
-            echo "❌ Commit format check failed."
+            echo "❌ One or more commit messages are not in 'feat:' or 'fix:' format."
             exit 1
           else
-            echo "✅ All commits are valid."
+            echo "✅ All commit messages follow the conventional format."
+          fi
 
